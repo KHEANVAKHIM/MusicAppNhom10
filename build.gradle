@@ -1,23 +1,72 @@
-buildscript {
-    repositories {
-        google()
-        jcenter()
-    }
-    dependencies {
-        classpath 'com.android.tools.build:gradle:8.9.0'
-        classpath 'com.google.gms:google-services:4.3.15' // Check for the latest version in Firebase documentation
-
-
-    }
+plugins {
+    id 'com.android.application'
+    id 'com.google.gms.google-services'
 }
 
-allprojects {
-    repositories {
-        google()
-        jcenter()
+android {
+    compileSdkVersion 34
+    buildToolsVersion "30.0.3"
+
+    defaultConfig {
+        applicationId "com.example.music"
+        minSdkVersion 23 // ✅ បម្លែងពី 21 → 23 ដើម្បីត្រូវ Firebase Auth 23.x+
+        targetSdkVersion 34
+        versionCode 1
+        versionName "1.0"
+        multiDexEnabled true
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    buildFeatures {
+        viewBinding true
+    }
+
+    namespace 'com.example.music'
 }
 
-task clean(type: Delete) {
-    delete rootProject.buildDir
+dependencies {
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'com.google.android.material:material:1.3.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+
+    // Firebase BOM (✅ ដាក់មួយប៉ុណ្ណោះ)
+    implementation platform('com.google.firebase:firebase-bom:33.12.0')
+    implementation 'com.google.firebase:firebase-auth'
+    implementation 'com.google.firebase:firebase-database'
+    implementation 'com.google.firebase:firebase-firestore'
+    implementation 'com.google.firebase:firebase-storage'
+    implementation 'com.google.firebase:firebase-analytics'
+    implementation 'com.google.android.gms:play-services-safetynet:17.0.0'
+
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.4'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.0'
+
+    implementation 'com.android.support:multidex:1.0.3'
+
+    // MaterialDialog
+    implementation 'com.afollestad.material-dialogs:core:0.9.6.0'
+
+    // Glide ImageLoader
+    implementation 'com.github.bumptech.glide:glide:4.12.0'
+
+    // Circle ImageView
+    implementation 'de.hdodenhof:circleimageview:3.0.0'
+
+    // Indicator
+    implementation 'me.relex:circleindicator:2.1.6'
 }
+
+apply plugin: 'com.google.gms.google-services'
